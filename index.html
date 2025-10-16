@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tom Calavera - Graphic Designer & UX/UI Designer</title>
+
+  <!-- Polices -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lottie player (CDN) -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
+
+  <style>
+  /* ========== VARIABLES & RESET ========== */
+  :root{
+    /* palette principale : remplace le "doré" par un gris clair sophistiqué */
+    --bg: #f6f5f3;
+    --card: #ffffff;
+    --muted: #6d6d6d;
+    --text: #141414;
+    --accent: #cfd6db;         /* gris clair (anciennement doré) */
+    --accent-strong: #9fa7ad;  /* gris moyen pour profondeur */
+    --glass: rgba(255,255,255,0.6);
+    --border: #e6e2db;
+    --radius: 16px;
+    /* shadows + un peu plus prononcés pour l'effet 4D */
+    --shadow-sm: 0 10px 28px rgba(20,20,20,0.08);
+    --shadow-md: 0 28px 70px rgba(15,15,15,0.12);
+    --shadow-strong: 0 40px 120px rgba(10,10,10,0.16);
+    --max-width: 1200px;
+    --ease: cubic-bezier(.2,.9,.2,1);
+    --loader-bg: rgba(10,12,14,0.6);
+  }
+  /* dark mode variables */
+  :root.dark{
+    --bg: #0b0f14;
+    --card: #0f1620;
+    --muted: #9aa6b2;
+    --text: #e6eef6;
+    --accent: #d6dde2;
+    --accent-strong: #bfc8cf;
+    --glass: rgba(255,255,255,0.03);
+    --border: rgba(255,255,255,0.04);
+    --shadow-sm: 0 12px 40px rgba(0,0,0,0.6);
+    --shadow-md: 0 40px 80px rgba(0,0,0,0.65);
+    --shadow-strong: 0 60px 160px rgba(0,0,0,0.7);
+    --loader-bg: rgba(2,6,10,0.65);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html { scroll-behavior: smooth; }
+  body{
+    font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(800px 400px at 10% 10%, rgba(159,167,173,0.04), transparent), var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.5;
+    padding:28px;
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+  }
+  .wrap { width:100%; max-width:var(--max-width); }
+
+  /* ========== NAV ========== */
+  nav{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 18px;
+    width: calc(100% - 56px);
+    max-width: calc(var(--max-width) + 40px);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 12px 22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.35));
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(8px);
+    transition: all 300ms var(--ease);
+    z-index: 1200;
+  }
+  :root.dark nav{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid var(--border);
+  }
+  .brand { display:flex; gap:14px; align-items:center; }
+  .logo {
+    width:56px; height:56px; border-radius:12px;
+    background: linear-gradient(135deg,var(--accent),var(--accent-strong));
+    display:grid; place-items:center; color: #081018; font-weight:800;
+    font-family:"Bebas Neue", sans-serif; font-size:40px;
+    box-shadow: var(--shadow-sm);
+    transform: translateZ(20px); /* légère profondeur */
+  }
+  .name { font-weight:700; letter-spacing:0.2px; }
+  .nav-links{ display:flex; gap:18px; align-items:center; list-style:none; }
+  .nav-links a{
+    text-decoration:none; color:var(--muted); font-weight:600; font-size:0.95rem;
+    position:relative; padding:6px 4px; transition: color 220ms var(--ease), transform 220ms var(--ease);
+  }
+  .nav-links a:hover{ color:var(--accent-strong); transform: translateY(-2px) }
+
+  /* toggle button */
+  .controls { display:flex; gap:12px; align-items:center; }
+  .theme-toggle{
+    width:60px; height:36px; border-radius:999px; border:3px solid var(--border);
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+    display:flex; align-items:center; padding:6px; cursor:pointer; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    transition: all 260ms var(--ease);
+  }
+  :root.dark .theme-toggle{ background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
+  .theme-toggle .knob{
+    width:22px;height:22px;border-radius:50%; background: linear-gradient(180deg,#565466,#565466);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12); transform: translateX(0);
+    transition: transform 300ms var(--ease), background 300ms var(--ease);
+  }
+  .theme-toggle[data-mode="dark"] .knob{ transform: translateX(20px); background: linear-gradient(180deg,#fffbeb,#efe3b8); }
+
+  /* ========== HERO ========== */
+  .hero{ margin-top:110px; min-height:80vh; display:grid; grid-template-columns: 1fr 420px; gap:32px; align-items:center; padding:48px 0; perspective:1200px; }
+  /* left */
+  .hero-left{ max-width:760px; z-index:2; transform: translateZ(40px); }
+  .eyebrow{ color:var(--muted); font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; font-size:12px; }
+  h1.title{ font-family:"Bebas Neue", sans-serif; font-size: clamp(48px, 8vw, 96px); line-height:0.9; margin:0 0 12px 0; letter-spacing:1px; color:var(--text); }
+  p.lead{ color:var(--muted); font-size:1.05rem; max-width:66ch; margin-bottom:20px; }
+
+  /* CTA with depth */
+  .cta-wrap{ display:flex; gap:14px; align-items:center; flex-wrap:wrap }
+  .btn-primary{
+    display:inline-flex; align-items:center; gap:12px; padding:14px 26px; border-radius:999px;
+    background: linear-gradient(180deg,var(--accent), var(--accent-strong));
+    color: #081018; font-weight:700; text-decoration:none;
+    
+    transform: translateY(0);
+    transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+  }
+  .btn-primary:hover{
+    transform: translateY(-8px); 
+  }
+  .btn-ghost{ padding:12px 20px; border-radius:999px; background:transparent; border:3px solid var(--border); color:var(--muted); text-decoration:none; transition: transform 220ms var(--ease), color 220ms var(--ease), background 220ms var(--ease); }
+  .btn-ghost:hover{ transform: translateY(-4px); color:var(--accent-strong) }
+
+  /* right card (portrait / panel) */
+  .panel{
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.25));
+    border-radius:18px; padding:18px; border:1px solid var(--border);
+    box-shadow: var(--shadow-md); transition: transform 300ms var(--ease), background 300ms var(--ease);
+    transform-style: preserve-3d;
+  }
+  :root.dark .panel{ background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
+  .profile-photo{
+    width:100%; height:420px; border-radius:12px;
+    background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1000');
+    background-size: cover; background-position: center;
+    transform-origin: center; transition: transform 600ms var(--ease), box-shadow 300ms var(--ease);
+    box-shadow: 0 28px 90px rgba(10,10,10,0.08);
+    will-change: transform, box-shadow;
+  }
+  .panel .meta{ margin-top:14px; display:flex;align-items:center;justify-content:space-between; }
+  .meta .role { font-weight:700; font-size:2rem; color:var(--text); font-family:"Bebas Neue",sans-serif }
+  .meta .location { color:var(--muted); font-size:0.95rem }
+
+  /* small decorative Lottie in panel */
+  .panel .mini-lottie { width:64px; height:64px; display:block; }
+
+  /* ========== SECTIONS ========== */
+  section { padding: 64px 0; border-radius: 12px; }
+  .section-title{ font-family:"Bebas Neue", sans-serif; font-size: clamp(32px, 5vw, 44px); margin-bottom:6px; }
+  .section-sub{ color:var(--muted); margin-bottom:24px }
+
+  /* about grid */
+  .about-grid{ display:grid; grid-template-columns: 1fr 420px; gap:28px; align-items:center}
+  .about-text p{ color:var(--muted); margin-bottom:14px; font-size:1rem; }
+  .about-photo{
+    height:320px; border-radius:14px;
+    background-image: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1000');
+    background-size: cover; background-position: center;
+    box-shadow: var(--shadow-md); transition: transform 500ms var(--ease);
+    transform-origin: center;
+  }
+
+  /* skills */
+  .skills-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:20px }
+  .skill{
+    background: var(--card); border-radius:14px; padding:18px; border:1px solid var(--border);
+    box-shadow: var(--shadow-sm); transition: transform 380ms var(--ease), box-shadow 380ms var(--ease);
+    transform-style: preserve-3d; perspective: 900px;
+  }
+  .skill:hover{ transform: translateY(-14px) rotateX(6deg); box-shadow: var(--shadow-strong); }
+  .skill h3{ margin-bottom:8px; font-weight:700 }
+  .skill p{ color:var(--muted); font-size:0.95rem }
+
+  .skill .logos {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.skill .logos img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  transition: filter 0.3s var(--ease), opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.skill .logos img:hover {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+  /* projects - 3D card effect (renforcé) */
+  .projects-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap:22px; }
+  .project{
+    border-radius:14px; overflow:hidden; background: var(--card); border:1px solid var(--border);
+    box-shadow: var(--shadow-sm); transition: transform 320ms var(--ease), box-shadow 320ms var(--ease);
+    transform-style: preserve-3d; perspective: 1100px; cursor:pointer;
+  }
+  .project-inner{ transform-origin: center; transition: transform 360ms var(--ease); will-change: transform; }
+  .project:hover{ transform: translateY(-18px); box-shadow: var(--shadow-strong); }
+  .project-media{ height:220px; background-size:cover; background-position:center; transition: transform 420ms var(--ease); }
+  .project:hover .project-media{ transform: scale(1.08) }
+  .project-info{ padding:18px }
+  .project-category{ color:var(--muted); font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px }
+  .project h3{ margin-bottom:8px }
+
+  /* testimonials */
+  .test-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:18px }
+  .test{ background:var(--card); padding:18px; border-radius:12px; border:1px solid var(--border); box-shadow: var(--shadow-sm) }
+  .test .quote{ color:var(--muted); margin-bottom:12px; font-style:italic }
+
+  /* contact */
+  .contact-methods{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center }
+  .contact-card{ padding:16px 22px; border-radius:12px; background:var(--card); border:1px solid var(--border); box-shadow: var(--shadow-sm); text-decoration:none; color:var(--text) }
+
+  /* footer */
+  footer{ margin-top:32px; padding:28px 0; text-align:center; color:var(--muted) }
+
+  /* fade-in util */
+  .fade { opacity:0; transform: translateY(20px); transition: opacity 520ms var(--ease), transform 520ms var(--ease) }
+  .fade.show { opacity:1; transform: translateY(0) }
+
+
+/* ===== CV LAYOUT ===== */
+.cv-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 40px;
+  margin-top: 36px;
+}
+
+.cv-main {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.cv-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cv-heading {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.8rem;
+  color: var(--accent-strong);
+  margin-bottom: 18px;
+}
+
+.cv-item {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.cv-date {
+  font-weight: 700;
+  color: var(--accent-strong);
+  min-width: 90px;
+}
+.cv-info h4 {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.cv-info p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.cv-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cv-info ul li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+.cv-info ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent-strong);
+}
+
+/* ===== SIDE COLUMN ===== */
+.cv-side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cv-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cv-card h3 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.4rem;
+  color: var(--accent-strong);
+  margin-bottom: 10px;
+}
+
+.cv-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cv-list li {
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.cv-list a {
+  color: var(--accent-strong);
+  text-decoration: none;
+}
+.cv-list a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Logos logiciels ===== */
+.cv-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.cv-logos img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  transition: filter 0.3s var(--ease), opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.cv-logos img:hover {
+  filter: none;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ===== Drapeaux langues ===== */
+.cv-flags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cv-flags li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.cv-flags img {
+  width: 24px;
+  height: 18px;
+  border-radius: 3px;
+  object-fit: cover;
+  box-shadow: 0 0 4px rgba(0,0,0,0.2);
+}
+
+
+/* ===== Responsive ===== */
+@media (max-width: 980px) {
+  .cv-layout {
+    grid-template-columns: 1fr;
+  }
+  .cv-side {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .cv-card {
+    flex: 1;
+    min-width: 260px;
+  }
+}
+
+
+
+  /* loader overlay */
+  .loader-overlay{
+    position: fixed; inset: 0; display:flex; align-items:center; justify-content:center;
+    background: var(--loader-bg); z-index: 9999; backdrop-filter: blur(6px);
+    transition: opacity 520ms var(--ease), transform 520ms var(--ease);
+  }
+  .loader-overlay.hidden{ opacity:0; pointer-events:none; transform: translateY(-8px); }
+  .loader-card{
+    width: min(420px, 88%); max-width:420px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border-radius: 20px; padding:18px; display:flex; gap:12px; align-items:center; justify-content:center;
+    box-shadow: var(--shadow-strong); border: 1px solid rgba(255,255,255,0.06);
+    transform: translateZ(60px);
+  }
+  .loader-text{ font-weight:700; letter-spacing:0.6px; color:var(--accent-strong); font-family:"Bebas Neue", sans-serif; font-size:1.05rem; }
+
+  /* responsive */
+  @media (max-width: 980px){
+    .hero, .about-grid { grid-template-columns: 1fr; }
+    .panel, .profile-photo { height:300px }
+    nav { padding:10px 16px }
+    .loader-card{ width: 90%; padding:14px; }
+  }
+  @media (max-width: 520px){
+    .brand .logo { display:none }
+    .nav-links { display:none }
+    body { padding:18px }
+  }
+  </style>
+</head>
+<body>
+  <!-- LOADER (Lottie) -->
+  <div id="loader" class="loader-overlay" role="status" aria-live="polite">
+    <div class="loader-card" aria-hidden="false">
+      <!-- Lottie animation (spinner / abstract) -->
+      <lottie-player
+        src="https://assets10.lottiefiles.com/packages/lf20_jcikwtux.json"
+        background="transparent"
+        speed="1"
+        style="width:96px; height:96px;"
+        autoplay
+        loop
+        aria-hidden="true"></lottie-player>
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:6px;">
+        <div class="loader-text">Chargement — Portfolio</div>
+        <div style="font-size:0.85rem;color:var(--muted)">Préparation des interactions...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- NAV -->
+    <nav role="navigation" aria-label="Navigation principale">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">TC</div>
+        <div>
+          <div class="name">Tom Calavera</div>
+          <div style="font-size:12px;color:var(--muted)">Graphic Designer & UX/UI Designer</div>
+        </div>
+      </div>
+
+      <ul class="nav-links" role="menubar">
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#skills">Compétences</a></li>
+        <li><a href="#projects">Projets</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="controls">
+        <div id="themeToggle" class="theme-toggle" role="button" aria-label="Basculer mode sombre" title="Basculer mode sombre" data-mode="light">
+          <div class="knob" aria-hidden="true"></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <main>
+      <section class="hero" id="home" aria-labelledby="home-title">
+        <div class="hero-left">
+          <div class="eyebrow">Portfolio</div>
+          <h1 id="home-title" class="title">Graphic Designer<br>& UX/UI Designer</h1>
+          <p class="lead">Je propose des expériences digitales élégantes, stratégiques et adaptées à l'image d'une marque : identité, interfaces claires et interactions qui apportent du sens. </br> Mon 5 années d'études et mon Master en communication me permet d'allier stratégie et création graphique.</p>
+          <div class="cta-wrap">
+            <a href="#projects" class="btn-primary">Voir mes projets</a>
+            <a href="#contact" class="btn-ghost">Me contacter</a>
+          </div>
+        </div>
+
+        <aside class="panel" aria-hidden="true">
+          <div class="profile-photo" id="profilePhoto" style="background-image: url('images/tom_calavera.jpg');"></div>
+
+          <div class="meta">
+            <div>
+              <div class="role">Tom Calavera</div>
+              <div class="location">Graphic Designer & UX/UI Designer</div>
+            </div>
+
+            <!-- mini decorative Lottie -->
+            <lottie-player class="mini-lottie" src="https://assets8.lottiefiles.com/packages/lf20_touohxv0.json" background="transparent" speed="1" style="width:64px;height:64px;" loop autoplay aria-hidden="true"></lottie-player>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="fade">
+        <h2 class="section-title">À propos</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>Je suis Tom, et je suis passionné de graphisme. J’allie stratégie, storytelling et esthétique pour concevoir des identités visuelles fortes et des interfaces engageantes, au service de marques. Mon approche repose sur la simplicité, une hiérarchie visuelle claire et des interactions pensées dans les moindres détails.</p>
+            <p>Formé à la fois en communication, en marketing digital et en design, j’ai pu développer une vision globale du métier grâce à mes expériences chez Windelo Catamaran et Interactiv Group : gestion de site web, création graphique, campagnes réseaux sociaux, photographie, vidéos et reporting de performance.</p>
+            <p>Mon ambition aujourd’hui : accompagner des startups et agences créatives dans la transformation de leurs idées en expériences concrètes, esthétiques et porteuses de sens — là où stratégie et émotion se rencontrent.</p>
+          </div>
+          <div class="about-photo" id="aboutPhoto" style="background-image: url('images/a_propos.svg');"></div>
+        </div>
+      </section>
+
+      <!-- SKILLS -->
+<section id="skills" class="fade">
+  <h2 class="section-title">Compétences</h2>
+  <div class="section-sub">En savoir + sur mes connaissances et ce que je sais faire.</div>
+  <div class="skills-grid">
+
+    <div class="skill">
+      <h3>Suite Adobe</h3>
+      <div class="logos">
+        <img src="images/photoshop.svg" alt="Adobe Photoshop" title="Adobe Photoshop">
+        <img src="images/illustrator.svg" alt="Adobe Illustrator" title="Adobe Illustrator">
+        <img src="images/indesign.svg" alt="Adobe InDesign" title="Adobe InDesign">
+      </div>
+    </div>
+
+    <div class="skill">
+      <h3>UX / UI</h3>
+      <div class="logos">
+        <img src="images/figma.svg" alt="Figma" title="Figma">
+      </div>
+    </div>
+
+    <div class="skill">
+      <h3>Intégration web</h3>
+      <div class="logos">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="Wordpress" title="Wordpress">
+      </div>
+    </div>
+
+    <div class="skill">
+      <h3>Montage vidéo</h3>
+      <div class="logos">
+        <img src="images/premierepro.svg" alt="Adobe Premiere Pro" title="Adobe Premiere Pro">
+        <img src="images/aftereffects.svg" alt="Adobe After Effects" title="Adobe After Effects">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+      <!-- PROJECTS -->
+      <section id="projects" class="fade">
+        <h2 class="section-title">Mes projets</h2>
+        <div class="section-sub">Exemples de projets sur lesquelles j'ai travaillé durant ces 5 dernières années.</div>
+        <div class="projects-grid" id="projectsGrid">
+          <!-- project 1 -->
+          <article class="project" tabindex="0">
+            <div class="project-inner">
+              <div class="project-media" style="background-image:url('images/moondance.jpg')"></div>
+              <div class="project-info">
+                <div class="project-category">Branding & Événementiel</div>
+                <h3>Moondance</h3>
+                <p>Identité & Branding pour Moondance, un festival de nuit innovant.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- project 2 -->
+          <article class="project" tabindex="0">
+            <div class="project-inner">
+              <div class="project-media" style="background-image:url('images/hero-02.svg')"></div>
+              <div class="project-info">
+                <div class="project-category">Branding & Design</div>
+                <h3>Hero</h3>
+                <p>Application mobile avec parcours utilisateur simplifié et engagements micro-interactions.</p>
+              </div>
+            </div>
+          </article>
+
+          <!-- project 3 -->
+          <article class="project" tabindex="0">
+            <div class="project-inner">
+              <div class="project-media" style="background-image:url('images/coming_soon-03.svg')"></div>
+              <div class="project-info">
+                <div class="project-category">Rebranding</div>
+                <h3>Rebranding Clubs TOP 14</h3>
+                <p>14 clubs. 14 logos. 14 jours.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- EXPERIENCES -->
+<section id="cv" class="fade">
+  <h2 class="section-title">Curriculum vitæ</h2>
+  <div class="section-sub">Mon parcours, mes compétences et mes expériences.</div>
+
+  <div class="cv-layout">
+    
+    <!-- Colonne principale -->
+    <div class="cv-main">
+      
+      <!-- Expériences -->
+      <div class="cv-block">
+        <h3 class="cv-heading">Expériences professionnelles</h3>
+
+        <div class="cv-item">
+          <div class="cv-date">2023 — 2025</div>
+          <div class="cv-info">
+            <h4>Windelo Catamaran</h4>
+            <p>Alternance — Assistant communication</p>
+            <ul>
+              <li>Gestion du site web, newsletters, créations graphiques</li>
+              <li>Photographie, vidéo, motion design et social media</li>
+              <li>Reporting des performances et KPIs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cv-item">
+          <div class="cv-date">2021 — 2022</div>
+          <div class="cv-info">
+            <h4>Interactiv Group</h4>
+            <p>Stage & CDD — Assistant marketing</p>
+            <ul>
+              <li>Création de visuels, articles et contenus digitaux</li>
+              <li>Réalisation de vidéos et animations motion design</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formation -->
+      <div class="cv-block">
+        <h3 class="cv-heading">Formation</h3>
+
+        <div class="cv-item">
+          <div class="cv-date">2023 — 2025</div>
+          <div class="cv-info">
+            <h4>Master Manager de la Communication</h4>
+            <p>Sup de Com Toulouse — Spécialité Sport</p>
+          </div>
+        </div>
+
+        <div class="cv-item">
+          <div class="cv-date">2022 — 2023</div>
+          <div class="cv-info">
+            <h4>Licence Professionnelle Marketing & E-Marketing</h4>
+            <p>IUT de Carcassonne — Major de promotion</p>
+          </div>
+        </div>
+
+        <div class="cv-item">
+          <div class="cv-date">2020 — 2022</div>
+          <div class="cv-info">
+            <h4>DUT Multimédia et Métiers de l’Internet</h4>
+            <p>IUT de Béziers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne latérale -->
+    <aside class="cv-side">
+
+      <div class="cv-card">
+        <h3>Logiciels</h3>
+        <div class="cv-logos">
+          <img src="images/photoshop.svg" alt="Photoshop" title="Photoshop">
+          <img src="images/illustrator.svg" alt="Illustrator" title="Illustrator">
+          <img src="images/indesign.svg" alt="InDesign" title="InDesign">
+          <img src="images/figma.svg" alt="Figma" title="Figma">
+          <img src="images/premierepro.svg" alt="Premiere Pro" title="Premiere Pro">
+          <img src="images/aftereffects.svg" alt="After Effects" title="After Effects">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress" title="WordPress">
+        </div>
+      </div>
+
+      <div class="cv-card">
+        <h3>Langues</h3>
+        <ul class="cv-flags">
+          <li><img src="https://flagcdn.com/fr.svg" alt="Francais"> Français — Niveau C2</li>
+          <li><img src="https://flagcdn.com/gb.svg" alt="Anglais"> Anglais — Niveau B2</li>
+          <li><img src="https://flagcdn.com/es.svg" alt="Espagnol"> Espagnol — Niveau B1</li>
+        </ul>
+      </div>
+
+      <div class="cv-card">
+        <h3>Informations</h3>
+        <ul class="cv-list">
+          <li>Âge : 22 ans</li>
+          <li>Adresse : 12 rue du Mourvèdre, 66200</li>
+          <li>Téléphone : 06 15 66 35 38</li>
+          <li>Email : <a href="mailto:tom.calavera66@gmail.com">tom.calavera66@gmail.com</a></li>
+        </ul>
+      </div>
+
+    </aside>
+  </div>
+</section>
+
+
+
+
+      <!-- CONTACT -->
+      <section id="contact" class="fade">
+        <h2 class="section-title">Contact</h2>
+        <div class="section-sub">Un projet ? Parlons-en ensemble.</div>
+        <div class="contact-methods">
+          <a class="contact-card" href="mailto:tom@calavera.design">
+            <div style="font-size:0.9rem;color:var(--muted)">Email</div>
+            <div style="font-weight:700">tom.calavera66@gmail.com</div>
+          </a>
+          <a class="contact-card" href="tel:+33612345678">
+            <div style="font-size:0.9rem;color:var(--muted)">Téléphone</div>
+            <div style="font-weight:700">06 15 66 35 38</div>
+          </a>
+        </div>
+      </section>
+
+      <footer>
+        &copy; 2025 Tom Calavera — Tous droits réservés.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+  /* ========================= THEME TOGGLE (light default) - conserve la préférence dans localStorage ========================= */
+  const themeToggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+
+  const saved = localStorage.getItem('tc-theme');
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  function applyTheme(mode){
+    if(mode === 'dark'){
+      root.classList.add('dark');
+      themeToggle.setAttribute('data-mode','dark');
+      themeToggle.setAttribute('aria-pressed','true');
+    } else {
+      root.classList.remove('dark');
+      themeToggle.setAttribute('data-mode','light');
+      themeToggle.setAttribute('aria-pressed','false');
+    }
+  }
+
+  if(saved === 'dark' || (!saved && prefersDark === true)) applyTheme('dark');
+  else applyTheme('light');
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = root.classList.contains('dark');
+    const mode = isDark ? 'light' : 'dark';
+    applyTheme(mode);
+    localStorage.setItem('tc-theme', mode);
+  });
+
+  /* ========================= FADE IN ON SCROLL ========================= */
+  const faders = document.querySelectorAll('.fade');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) entry.target.classList.add('show');
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -80px 0px" });
+  faders.forEach(el => io.observe(el));
+
+  /* ========================= HERO PARALLAX (subtile) & PROFILE tilt on mousemove ========================= */
+  const hero = document.querySelector('.hero');
+  const profile = document.getElementById('profilePhoto');
+  const aboutPhoto = document.getElementById('aboutPhoto');
+
+  if(hero){
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width; // 0..1
+      const y = (e.clientY - rect.top) / rect.height; // 0..1
+      // subtle background move on profile and about
+      const moveX = (x - 0.5) * 16; // -8 .. 8 (bigger for 4D feel)
+      const moveY = (y - 0.5) * 12; // -6 .. 6
+      if(profile) profile.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) scale(1.02)`;
+      if(aboutPhoto) aboutPhoto.style.transform = `translate3d(${moveX*0.55}px, ${moveY*0.55}px, 0) scale(1.02)`;
+    });
+
+    hero.addEventListener('mouseleave', () => {
+      if(profile) profile.style.transform = `translate3d(0,0,0) scale(1)`;
+      if(aboutPhoto) aboutPhoto.style.transform = `translate3d(0,0,0) scale(1)`;
+    });
+  }
+
+  /* ========================= PROJECT CARD 3D TILT on mouse move ========================= */
+  const projects = document.querySelectorAll('.project');
+  projects.forEach(card => {
+    const inner = card.querySelector('.project-inner');
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      const rotateY = (px - 0.5) * 18; // + profondeur
+      const rotateX = (0.5 - py) * 12; // + profondeur
+      inner.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(24px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      inner.style.transform = `rotateX(0) rotateY(0) translateZ(0)`;
+    });
+
+    // keyboard focus accessibility (small scale)
+    card.addEventListener('focus', () => {
+      card.classList.add('focused');
+      card.style.transform = 'translateY(-14px)';
+      card.style.boxShadow = 'var(--shadow-strong)';
+    });
+    card.addEventListener('blur', () => {
+      card.classList.remove('focused');
+      card.style.transform = '';
+      card.style.boxShadow = '';
+    });
+  });
+
+  /* ========================= NAV shadow on scroll ========================= */
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 40){
+      nav.style.transform = 'translateX(-50%) translateY(-6px)';
+      nav.style.boxShadow = '0 30px 80px rgba(0,0,0,0.10)';
+    } else {
+      nav.style.transform = 'translateX(-50%) translateY(0)';
+      nav.style.boxShadow = '';
+    }
+  });
+
+  /* ========================= LOADER (display until window.load) ========================= */
+  const loader = document.getElementById('loader');
+
+  // Ensure loader is visible at least 600ms for smooth perception
+  const minLoaderTime = 600;
+  const start = performance.now();
+
+  window.addEventListener('load', () => {
+    const elapsed = performance.now() - start;
+    const remaining = Math.max(0, minLoaderTime - elapsed);
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      // remove from DOM after transition to free resources
+      setTimeout(() => loader.remove(), 700);
+    }, remaining);
+  });
+
+  /* ========================= NOTES ========================= */
+  // - Remplacez les images (background-image urls) par vos visuels.
+  // - Les Lottie utilisent des URLs publiques; remplacez les `src` si vous préférez vos propres animations Lottie.
+  // - Le thème est stocké dans localStorage sous "tc-theme".
+  </script>
+</body>
+</html>
