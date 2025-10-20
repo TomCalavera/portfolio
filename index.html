@@ -735,6 +735,8 @@
       <h3>Intégration web</h3>
       <div class="logos">
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="Wordpress" title="Wordpress">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg" alt="HTML5" title="HTML5">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" alt="CSS3" title="CSS3">
       </div>
     </div>
 
@@ -788,6 +790,18 @@
     </article>
 
     <!-- project 3 -->
+    <article class="project" tabindex="0">
+      <div class="project-inner">
+        <div class="project-media" style="background-image:url('images/miniature_portfolio.jpg')"></div>
+        <div class="project-info">
+          <div class="project-category">UX/UI & programmation (html/css/js)</div>
+          <h3>Mon portfolio</h3>
+          <p>Portfolio réalisé en octobre 2025 en utilisant seulement les langages de programmation.</p>
+        </div>
+      </div>
+    </article>
+
+        <!-- project 4 -->
     <article class="project" tabindex="0">
       <div class="project-inner">
         <div class="project-media" style="background-image:url('images/coming_soon-03.svg')"></div>
@@ -877,18 +891,23 @@
     <!-- Colonne latérale -->
     <aside class="cv-side">
 
-      <div class="cv-card">
-        <h3>Logiciels</h3>
-        <div class="cv-logos">
-          <img src="images/photoshop.svg" alt="Photoshop" title="Photoshop">
-          <img src="images/illustrator.svg" alt="Illustrator" title="Illustrator">
-          <img src="images/indesign.svg" alt="InDesign" title="InDesign">
-          <img src="images/figma.svg" alt="Figma" title="Figma">
-          <img src="images/premierepro.svg" alt="Premiere Pro" title="Premiere Pro">
-          <img src="images/aftereffects.svg" alt="After Effects" title="After Effects">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress" title="WordPress">
-        </div>
-      </div>
+ <div class="cv-card">
+  <h3>Logiciels & Langages</h3>
+  <div class="cv-logos">
+    <img src="images/photoshop.svg" alt="Photoshop" title="Photoshop">
+    <img src="images/illustrator.svg" alt="Illustrator" title="Illustrator">
+    <img src="images/indesign.svg" alt="InDesign" title="InDesign">
+    <img src="images/figma.svg" alt="Figma" title="Figma">
+    <img src="images/premierepro.svg" alt="Premiere Pro" title="Premiere Pro">
+    <img src="images/aftereffects.svg" alt="After Effects" title="After Effects">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress" title="WordPress">
+
+    <!-- Nouveaux logos HTML, CSS, JS -->
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain.svg" alt="HTML5" title="HTML5">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" alt="CSS3" title="CSS3">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-plain.svg" alt="JavaScript" title="JavaScript">
+  </div>
+</div>
 
       <div class="cv-card">
         <h3>Langues</h3>
@@ -938,6 +957,51 @@
   </div>
 
   <script>
+
+function createFavicon() {
+  const size = 64; // taille du favicon
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Dégradé comme dans .logo
+  const gradient = ctx.createLinearGradient(0, 0, size, size);
+  gradient.addColorStop(0, '#cfd6db'); // var(--accent)
+  gradient.addColorStop(1, '#9fa7ad'); // var(--accent-strong)
+
+  // Fond arrondi
+  const radius = 12;
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.moveTo(radius, 0);
+  ctx.lineTo(size - radius, 0);
+  ctx.quadraticCurveTo(size, 0, size, radius);
+  ctx.lineTo(size, size - radius);
+  ctx.quadraticCurveTo(size, size, size - radius, size);
+  ctx.lineTo(radius, size);
+  ctx.quadraticCurveTo(0, size, 0, size - radius);
+  ctx.lineTo(0, radius);
+  ctx.quadraticCurveTo(0, 0, radius, 0);
+  ctx.closePath();
+  ctx.fill();
+
+  // Texte TC
+  ctx.fillStyle = '#081018'; // couleur texte
+  ctx.font = 'bold 36px Bebas Neue, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('TC', size/2, size/2);
+
+  // Créer le favicon
+  const link = document.createElement('link');
+  link.rel = 'icon';
+  link.href = canvas.toDataURL('image/png');
+  document.head.appendChild(link);
+}
+
+createFavicon();
+
   /* ========================= THEME TOGGLE (light default) - conserve la préférence dans localStorage ========================= */
   const themeToggle = document.getElementById('themeToggle');
   const root = document.documentElement;
@@ -998,6 +1062,8 @@
       if(aboutPhoto) aboutPhoto.style.transform = `translate3d(0,0,0) scale(1)`;
     });
   }
+
+  
 
   /* ========================= PROJECT CARD 3D TILT on mouse move ========================= */
   const projects = document.querySelectorAll('.project');
