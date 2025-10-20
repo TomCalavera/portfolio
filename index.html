@@ -429,6 +429,61 @@
   }
   .loader-text{ font-weight:700; letter-spacing:0.6px; color:var(--accent-strong); font-family:"Bebas Neue", sans-serif; font-size:1.05rem; }
 
+  .project-link {
+  display: block;
+  text-decoration: none;
+}
+
+.project-link .project-media {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.project-link:hover .project-media {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
+
+/* Lien discret sous le texte */
+.project-small-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+/* --- Mode clair --- */
+@media (prefers-color-scheme: light) {
+  .project-small-link {
+    color: #222;
+    background-color: #f3f3f3;
+    border-color: #ddd;
+  }
+  .project-small-link:hover {
+    background-color: #e5e5e5;
+    border-color: #ccc;
+  }
+}
+
+/* --- Mode sombre --- */
+@media (prefers-color-scheme: dark) {
+  .project-small-link {
+    color: #2c2c2c;
+    background-color: #f5f5f5;
+    border-color: #444;
+  }
+  .project-small-link:hover {
+     color: #f5f5f5;
+    background-color: #0f1620;
+    border-color: #f5f5f5;
+  }
+}
+
+
   /* responsive */
   @media (max-width: 980px){
     .hero, .about-grid { grid-template-columns: 1fr; }
@@ -494,7 +549,7 @@
         <div class="hero-left">
           <div class="eyebrow">Portfolio</div>
           <h1 id="home-title" class="title">Graphic Designer<br>& UX/UI Designer</h1>
-          <p class="lead">Je propose des expériences digitales élégantes, stratégiques et adaptées à l'image d'une marque : identité, interfaces claires et interactions qui apportent du sens. </br> Mes 5 années d'études et mon Master en communication me permet d'allier stratégie et création graphique.</p>
+          <p class="lead">Je propose des expériences digitales élégantes, stratégiques et adaptées à l'image d'une marque : identité, interfaces claires et interactions qui apportent du sens. </br> Mes 5 années d'études et mon Master en communication me permettent d'allier stratégie et création graphique.</p>
           <div class="cta-wrap">
             <a href="#projects" class="btn-primary">Voir mes projets</a>
             <a href="#contact" class="btn-ghost">Me contacter</a>
@@ -569,48 +624,60 @@
 </section>
 
 
-      <!-- PROJECTS -->
-      <section id="projects" class="fade">
-        <h2 class="section-title">Mes projets</h2>
-        <div class="section-sub">Exemples de projets sur lesquelles j'ai travaillé durant ces 5 dernières années.</div>
-        <div class="projects-grid" id="projectsGrid">
-          <!-- project 1 -->
-          <article class="project" tabindex="0">
-            <div class="project-inner">
-              <div class="project-media" style="background-image:url('images/moondance.jpg')"></div>
-              <div class="project-info">
-                <div class="project-category">Branding & Événementiel</div>
-                <h3>Moondance</h3>
-                <p>Identité & Branding pour Moondance, un festival de nuit innovant.</p>
-              </div>
-            </div>
-          </article>
+<!-- PROJECTS -->
+<!-- PROJECTS -->
+<section id="projects" class="fade">
+  <h2 class="section-title">Mes projets</h2>
+  <div class="section-sub">Exemples de projets sur lesquelles j'ai travaillé durant ces 5 dernières années.</div>
 
-          <!-- project 2 -->
-          <article class="project" tabindex="0">
-            <div class="project-inner">
-              <div class="project-media" style="background-image:url('images/hero-02.svg')"></div>
-              <div class="project-info">
-                <div class="project-category">Branding & Design</div>
-                <h3>Hero</h3>
-                <p>Application mobile avec parcours utilisateur simplifié et engagements micro-interactions.</p>
-              </div>
-            </div>
-          </article>
+  <div class="projects-grid" id="projectsGrid">
 
-          <!-- project 3 -->
-          <article class="project" tabindex="0">
-            <div class="project-inner">
-              <div class="project-media" style="background-image:url('images/coming_soon-03.svg')"></div>
-              <div class="project-info">
-                <div class="project-category">Rebranding</div>
-                <h3>Rebranding Clubs TOP 14</h3>
-                <p>14 clubs. 14 logos. 14 jours.</p>
-              </div>
-            </div>
-          </article>
+    <!-- project 1 -->
+    <article class="project" tabindex="0">
+      <div class="project-inner">
+        <a href="charte_graphique_moondance.pdf" target="_blank" class="project-link">
+          <div class="project-media" style="background-image:url('images/moondance.jpg')"></div>
+        </a>
+        <div class="project-info">
+          <div class="project-category">Branding & Événementiel</div>
+          <h3>Moondance</h3>
+          <p>Identité & Branding pour Moondance, un festival de nuit innovant.</p>
+          <a href="charte_graphique_moondance.pdf" target="_blank" class="project-small-link">Voir le projet →</a>
         </div>
-      </section>
+      </div>
+    </article>
+
+    <!-- project 2 -->
+    <article class="project" tabindex="0">
+      <div class="project-inner">
+        <a href="charte_graphique_hero.pdf" target="_blank" class="project-link">
+          <div class="project-media" style="background-image:url('images/hero-02.svg')"></div>
+        </a>
+        <div class="project-info">
+          <div class="project-category">Branding & Design</div>
+          <h3>Hero</h3>
+          <p>Charte graphique & visuels pour la marque Hero (marque fictive).</p>
+          <a href="charte_graphique_hero.pdf" target="_blank" class="project-small-link">Voir le projet →</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- project 3 -->
+    <article class="project" tabindex="0">
+      <div class="project-inner">
+        <div class="project-media" style="background-image:url('images/coming_soon-03.svg')"></div>
+        <div class="project-info">
+          <div class="project-category">Rebranding</div>
+          <h3>Rebranding Clubs TOP 14</h3>
+          <p>14 clubs. 14 logos. 14 jours.</p>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+
 
       <!-- EXPERIENCES -->
 <section id="cv" class="fade">
@@ -668,7 +735,7 @@
           <div class="cv-date">2022 — 2023</div>
           <div class="cv-info">
             <h4>Licence Professionnelle Marketing & E-Marketing</h4>
-            <p>IUT de Carcassonne — Major de promotion</p>
+            <p>IUT de Carcassonne — Major de promo</p>
           </div>
         </div>
 
@@ -711,7 +778,6 @@
         <h3>Informations</h3>
         <ul class="cv-list">
           <li>Âge : 22 ans</li>
-          <li>Adresse : 12 rue du Mourvèdre, 66200</li>
           <li>Téléphone : 06 15 66 35 38</li>
           <li>Email : <a href="mailto:tom.calavera66@gmail.com">tom.calavera66@gmail.com</a></li>
         </ul>
@@ -873,4 +939,3 @@
   </script>
 </body>
 </html>
-
